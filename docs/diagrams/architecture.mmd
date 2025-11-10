@@ -1,0 +1,48 @@
+```mermaid
+flowchart LR
+    subgraph Ingestion
+        TS[Time-Series Sensors]
+        TXT[Metadata & Operator Notes]
+        LAB[Lab Assays]
+    end
+
+    subgraph Drift[Sensor Drift Correction]
+        TS -->|Corrected Streams| DC[Calibration & Bias Estimation]
+        LAB -->|Bias Updates| DC
+        DC --> TS_CORR[Drift-Corrected Data]
+    end
+
+    subgraph Metadata[LLM Metadata Encoder]
+        TXT --> LLM[Pre-trained LLM Encoder]
+        LLM --> ZMETA_SENSOR[Sensor Embeddings]
+        LLM --> ZMETA_GLOBAL[Global Context]
+    end
+
+    subgraph History[Time-Series History Encoder]
+        TS_CORR --> ENC[Transformer / GRU Encoder]
+        ZMETA_GLOBAL -->|FiLM Gates| ENC
+        ENC --> ZHIST_TOKENS[Temporal Tokens]
+        ENC --> ZHIST_GLOBAL[History Summary]
+    end
+
+    subgraph Fusion[Alignment & Fusion]
+        ZHIST_GLOBAL --> ALIGN[Contrastive Alignment]
+        ZMETA_GLOBAL --> ALIGN
+        ALIGN --> CFUSION[Cross-Attention + Gating]
+        ZMETA_SENSOR --> CFUSION
+        ZHIST_TOKENS --> CFUSION
+        CFUSION --> ZFUSED[Multimodal State]
+    end
+
+    subgraph Forecast[Probabilistic Forecast Module]
+        ZFUSED --> GEN[Latent Diffusion / Neural SDE]
+        GEN --> TRAJ[Sampled Nitrate Trajectories]
+        TRAJ --> STATS[Prediction Intervals & Risk Metrics]
+    end
+
+    style Drift fill:#E3F2FD,stroke:#64B5F6
+    style Metadata fill:#F3E5F5,stroke:#BA68C8
+    style History fill:#E8F5E9,stroke:#81C784
+    style Fusion fill:#FFF8E1,stroke:#FFD54F
+    style Forecast fill:#FFEBEE,stroke:#E57373
+```
