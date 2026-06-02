@@ -47,10 +47,7 @@ from torch.utils.data import Dataset, DataLoader
 
 # ── Column layout ──────────────────────────────────────────────────────────
 ALL_DATA_COLS = [
-    'nh4', 'no3', 'flow_ch4', 'norm_ch4', 'temp', 'K', 'nh3',
-    'subs1', 'subs2', 'supern', 'ph', 'ttpres', 'o2_sp', 'do',
-    'inoc_am', 'inoc_conc', 'hours_elapsed', 'air_sp',
-    'n2_norm', 'eth_norm', 'co2_norm', 'harvest',
+  #fill with data column titles
 ]
 
 
