@@ -48,7 +48,7 @@ from torch.utils.data import Dataset, DataLoader
 
 # ── Column layout ──────────────────────────────────────────────────────────
 ALL_DATA_COLS = [
-    'nh4', 'no3', 'flow_ch4', 'norm_ch4', 'K', 'nh3',
+     #fill with data column titles
 ]
 
 
